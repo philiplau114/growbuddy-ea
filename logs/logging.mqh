@@ -305,6 +305,9 @@ int LOG_OpenFileAppendCommon(const string fname)
 // ---------------- event builder & public API ----------------
 bool LOG_CreateEventLine(const string type, const string run_key, const string id, const string payloadJsonRaw)
 {
+   // Drop verbose debug events unless LOG_debug enabled
+   if(StringLen(type) > 0 && type == "debug") return false;
+   
    string ts = LOG_TimestampNow();
    string eventJson = "{";
    eventJson += LOG_JsonField("type", type) + ",";
